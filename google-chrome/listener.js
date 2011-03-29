@@ -5,7 +5,7 @@ var keysharkyListener = {
     // Chrome ... WTF did you made me write?
     var elem = document.createElement("script");
     elem.type = "text/javascript";
-    //elem.innerHTML = "CloudPlayer." + toggle + ";";
+    elem.innerHTML = toggle;
 
     var append = document.head.appendChild(elem);
     document.head.removeChild(append);
@@ -18,14 +18,14 @@ var keysharkyListener = {
 
       chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         var allToggles = {
-          "play"      : function(){ keysharkyListener.CloudPlayer("togglePlayPause()"); },
-          "stop"      : function(){ keysharkyListener.CloudPlayer("pause()"); },
-          "prev"      : function(){ keysharkyListener.CloudPlayer("previous()"); },
-          "next"      : function(){ keysharkyListener.CloudPlayer("next()"); },
+          "play"      : function(){ keysharkyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.masterPlay();"); },
+          "stop"      : function(){ keysharkyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.pause();"); },
+          "prev"      : function(){ keysharkyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('previous', null, null);"); },
+          "next"      : function(){ keysharkyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('next', null, null);"); },
 
-          "mute"      : function(){ keysharkyListener.CloudPlayer("setIsMuted(CloudPlayer.getIsMuted() ? false : true)"); },
-          "volup"     : function(){ keysharkyListener.CloudPlayer("setVolume(CloudPlayer.getVolume() + 10)"); },
-          "voldown"   : function(){ keysharkyListener.CloudPlayer("setVolume(CloudPlayer.getVolume() - 10)"); },
+          "mute"      : function(){ keysharkyListener.CloudPlayer("window.Mp3PlayerInterface.toggleMute();"); },
+          "volup"     : function(){ keysharkyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow<=90){window.Mp3PlayerInterface.setVolume((volNow/100)+0.1);volCont.slider('option','value',volNow+10)}else{window.Mp3PlayerInterface.setVolume(1);volCont.slider('option','value',100)}") },
+          "voldown"   : function(){ keysharkyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow>=10){window.Mp3PlayerInterface.setVolume((volNow/100)-0.1);volCont.slider('option','value',volNow-10)}else{window.Mp3PlayerInterface.setVolume(0);volCont.slider('option','value',0)}"); },
         };
 
         if (request.method == "CloudPlayer" && allToggles[request.action] != undefined){
