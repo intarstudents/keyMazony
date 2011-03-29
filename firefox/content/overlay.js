@@ -3,19 +3,40 @@ var keymazony = {
   // Init keymazony object
   init: function() {
     this.allToggles = {
-      "play"      : function(){ keymazony.gsliteswf.togglePlayPause(); },
-      "stop"      : function(){ keymazony.gsliteswf.pause(); },
-      "previous"  : function(){ keymazony.gsliteswf.previous(); },
-      "next"      : function(){ keymazony.gsliteswf.next(); },
+      "play"      : function(){ keymazony.player.currentPlayer.masterPlay(); },
+      "stop"      : function(){ keymazony.player.currentPlayer.pause(); },
+      "previous"  : function(){ keymazony.player.currentPlayer.playHash("previous", null, null); },
+      "next"      : function(){ keymazony.player.currentPlayer.playHash("next", null, null); },
 
-      "favorite"  : function(){ keymazony.gsliteswf.favoriteCurrentSong(); },
-      "voteup"    : function(){ keymazony.gsliteswf.voteCurrentSong(1); },
-      "votedown"  : function(){ keymazony.gsliteswf.voteCurrentSong(-1); },
-      "voteclear" : function(){ keymazony.gsliteswf.voteCurrentSong(0); },
+      "mute"      : function(){ keymazony.player.toggleMute() },
+      "volup"     : function(){
 
-      "mute"      : function(){ keymazony.gsliteswf.setIsMuted(keymazony.gsliteswf.getIsMuted() ? false : true); },
-      "volup"     : function(){ keymazony.gsliteswf.setVolume(keymazony.gsliteswf.getVolume() + 10); },
-      "voldown"   : function(){ keymazony.gsliteswf.setVolume(keymazony.gsliteswf.getVolume() - 10); }
+        var volCont = keymazony.acpTab.contentWindow.wrappedJSObject.jQuery(".volumeContainer");
+        var volNow  = volCont.slider("option","value");
+
+        if (volNow <=90){
+          keymazony.player.setVolume((volNow / 100) + 0.1);
+          volCont.slider("option","value", volNow + 10);
+        }else{
+          keymazony.player.setVolume(1);
+          volCont.slider("option","value", 100);
+        }
+
+      },
+      "voldown"   : function(){
+
+        var volCont = keymazony.acpTab.contentWindow.wrappedJSObject.jQuery(".volumeContainer");
+        var volNow  = volCont.slider("option","value");
+
+        if (volNow >=10){
+          keymazony.player.setVolume((volNow / 100) - 0.1);
+          volCont.slider("option","value", volNow - 10);
+        }else{
+          keymazony.player.setVolume(0);
+          volCont.slider("option","value", 0);
+        }
+
+      }
     };
 
     this.defaults = {
@@ -24,11 +45,6 @@ var keymazony = {
       "previous"    :  '{"modifiers":["control","alt","shift"],"key":"A","keycode":"","enabled":true}',
       "next"        :  '{"modifiers":["control","alt","shift"],"key":"D","keycode":"","enabled":true}',
 
-      "favorite"    :  '{"modifiers":["control","alt"],"key":"S","keycode":"","enabled":true}',
-      "voteup"      :  '{"modifiers":["control","alt"],"key":"A","keycode":"","enabled":true}',
-      "votedown"    :  '{"modifiers":["control","alt"],"key":"Z","keycode":"","enabled":true}',
-      "voteclear"   :  '{"modifiers":["control","alt"],"key":"Q","keycode":"","enabled":true}',
-
       "mute"        :  '{"modifiers":["control","shift"],"key":"M","keycode":"","enabled":true}',
       "volup"       :  '{"modifiers":["control","shift"],"key":">","keycode":"","enabled":true}',
       "voldown"     :  '{"modifiers":["control","shift"],"key":"<","keycode":"","enabled":true}',
@@ -36,21 +52,12 @@ var keymazony = {
       "server_port" : 8800
     }
 
-    this.serverMethods = {
-      "currentSong"   : function(){ return keymazony.gsliteswf.getCurrentSongStatus(); },
-      "nextSong"      : function(){ return keymazony.gsliteswf.getNextSong(); },
-      "previousSong"  : function(){ return keymazony.gsliteswf.getPreviousSong(); },
-
-      "volume"        : function(){ return keymazony.gsliteswf.getVolume(); },
-      "muted"         : function(){ return keymazony.gsliteswf.getIsMuted(); },
-    };
-
     this.consoleObject = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
     this.environment = typeof(WebRunner) != "undefined" ? "prism" : "firefox";
 
-    this.gsliteswf  = undefined;
-    this.gsAPI      = undefined;
-    this.gsTab      = null;
+    this.player     = undefined;
+    this.acpAPI     = undefined;
+    this.acpTab     = null;
     this.debug      = false;
     this.readme_url = "http://www.mozilla.org/access/keyboard/";
 
@@ -58,7 +65,10 @@ var keymazony = {
 
     // No need of keyboard shortcuts in Prism
     if (this.enviroment != "prism")
-      this.loadCombos();
+      setTimeout(function(){
+        // This timeout here is because keySharky and keyMazony likes to mess up eatch others combo commits.
+        keymazony.loadCombos();
+      }, 1000);
 
     if (this.get_server_autostart())
       this.startServer();
@@ -71,152 +81,45 @@ var keymazony = {
     this.stopServer();
   },
 
-  // Start gsAPI server (on users selected port) and register all handlers for it
+  // Start acpAPI server (on users selected port) and register all handlers for it
   startServer: function(){
     try{
 
-      this.gsAPI = Components.classes["@mozilla.org/server/jshttp;1"].
+      this.acpAPI = Components.classes["@mozilla.org/server/jshttp;1"].
                   createInstance(Components.interfaces.nsIHttpServer);
       var port = this.get_server_port();
 
-      this.gsAPI.registerErrorHandler(404, this.serverErrorParser);
-      this.gsAPI.registerPathHandler("/", this.serverErrorParser);
-
-      this.gsAPI.registerPathHandler("/gs-version", this.serverGroovesharkVersion);
-      this.gsAPI.registerPathHandler("/gs-api-version", this.serverGroovesharkAPIVersion);
-      this.gsAPI.registerPathHandler("/setVolume", this.serverVolumeControl);
-
-      for (var method in this.serverMethods){
-        this.gsAPI.registerPathHandler("/" + method, this.serverInfo);
-      }
+      this.acpAPI.registerErrorHandler(404, this.serverErrorParser);
+      this.acpAPI.registerPathHandler("/", this.serverErrorParser);
 
       for(var toggle in this.allToggles){
-        this.gsAPI.registerPathHandler("/" + toggle, this.serverParser);
+        this.acpAPI.registerPathHandler("/" + toggle, this.serverParser);
       }
 
-      this.gsAPI.start(port);
-      this.log("gsAPI server started (@ http://localhost:" + port + ")");
+      this.acpAPI.start(port);
+      this.log("acpAPI server started (@ http://localhost:" + port + ")");
 
       return true;
 
     }catch(e){
 
-      this.log("failed to start gsAPI server");
+      this.log("failed to start acpAPI server");
       return false;
 
     }
   },
 
-  // Stop gsAPI server and unset gsAPI object
+  // Stop acpAPI server and unset acpAPI object
   stopServer: function(){
-    try{ this.gsAPI.stop(function(){}); }catch(e){}
+    try{ this.acpAPI.stop(function(){}); }catch(e){}
 
-    this.gsAPI = undefined;
-    this.log("gsAPI server stopped");
+    this.acpAPI = undefined;
+    this.log("acpAPI server stopped");
 
     return true;
   },
 
-  serverVolumeControl: function(request, response){
-
-    var volume = /^(\d+)$/i.exec(request.queryString);
-    var toggled = false;
-
-    if (volume != null && volume[1] >= 0 && volume[1] <= 100){
-
-      try {
-        keymazony.gsliteswf.setVolume(volume[1]);
-        toggled = true;
-      }catch(e){
-
-        try{
-          keymazony.findGrooveshark();
-
-          keymazony.gsliteswf.setVolume(volume[1]);
-          toggled = true;
-        }catch(e){}
-
-      }
-
-      if (toggled){
-
-        response.setStatusLine("1.1", 200, "OK");
-        response.write("VOLUME SET TO " + volume[1]);
-
-      }else{
-
-        response.setStatusLine("1.1", 500, "FAILED");
-        response.write("COULDN'T SET VOLUME");
-
-      }
-    }else{
-      response.setStatusLine("1.1", 500, "FAILED");
-      response.write("BAD VOLUME VALUE. MUST BE BETWEEN 0 AND 100.");
-    }
-
-  },
-
-  // Retrieves info about GroovesharkAPI version
-  serverGroovesharkAPIVersion: function(request, response){
-    try {
-      var version = keymazony.gsliteswf.getAPIVersion();
-    }catch(e){
-
-      // If no gsliteswf object found, try to search Grooveshark
-      try{
-
-        keymazony.findGrooveshark();
-        var version = keymazony.gsliteswf.getAPIVersion();
-
-      }catch(e){}
-
-    }
-
-    if (version){
-
-      response.setStatusLine("1.1", 200, "OK");
-      response.write(version);
-
-    }else{
-
-      response.setStatusLine("1.1", 500, "FAILED");
-      response.write("COULDN'T RETRIEVE GROOVESHARK API VERSION");
-
-    }
-  },
-
-  // Retrieves info about Grooveshark version
-  serverGroovesharkVersion: function(request, response){
-
-    try {
-      var version = keymazony.gsliteswf.getApplicationVersion();
-    }catch(e){
-
-      // If no gsliteswf object found, try to search Grooveshark
-      try{
-
-        keymazony.findGrooveshark();
-        var version = keymazony.gsliteswf.getApplicationVersion();
-
-      }catch(e){}
-
-    }
-
-    if (version){
-
-      response.setStatusLine("1.1", 200, "OK");
-      response.write(version);
-
-    }else{
-
-      response.setStatusLine("1.1", 500, "FAILED");
-      response.write("COULDN'T RETRIEVE GROOVESHARK VERSION");
-
-    }
-
-  },
-
-  // Parse and execute successful methods of gsAPI
+  // Parse and execute successful methods of acpAPI
   serverParser: function(request, response){
     var toggle = /\/(\w+)/i.exec(request.path);
     response.setHeader("Cache-Control", "no-cache", false);
@@ -230,60 +133,13 @@ var keymazony = {
     }
   },
 
-  // Retrieves and shows status messages
-  serverInfo: function(request, response){
-    var method = /\/(\w+)/i.exec(request.path);
-    var jsonArr = {};
-
-    try {
-      var json = keymazony.serverMethods[method[1]]();
-    }catch(e){
-
-      // If no gsliteswf object found, try to search Grooveshark
-      try{
-        keymazony.findGrooveshark();
-        var json = keymazony.serverMethods[method[1]]();
-      }catch(e){}
-
-    }
-
-    response.setHeader("Cache-Control", "no-cache", false);
-
-    if (typeof(json) != "undefined"){
-      response.setStatusLine("1.1", 200, "OK");
-
-      if (method[1] == "currentSong"){
-
-        response.write("status: " + json.status + "\n");
-        jsonArr = json.song;
-
-      }else if (method[1] == "nextSong" || method[1] == "previousSong"){
-
-        jsonArr = json;
-
-      }else{
-
-        jsonArr[method[1]] = json;
-
-      }
-
-      for(var status in jsonArr){
-        response.write(status + ": " + jsonArr[status] + "\n");
-      }
-    }else{
-      response.setStatusLine("1.1", 500, "FAILED");
-      response.write("COULDN'T RETRIEVE '" + method[1] + "' STATUS");
-    }
-
-  },
-
   // Not implemented message (or an error)
   serverErrorParser: function(request, response){
     response.setStatusLine("1.1", 501, "Not implemented");
     response.write((<r><![CDATA[
 <html>
   <head>
-    <title>keymazony &quot;Hi there!&quot;</title>
+    <title>keyMazony &quot;Hi there!&quot;</title>
   </head>
   <body>
     <div style="width: 450px; margin: 20px auto auto;">
@@ -343,7 +199,7 @@ var keymazony = {
     pref.setIntPref("extensions.keymazony.server_port", (port >= 1024 && port <= 65535 ? port : this.defaults["server_port"]));
   },
 
-  // Start or Stop gsAPI server with one click
+  // Start or Stop acpAPI server with one click
   toggleServer: function(){
     var toggleButton = this.optionsDoc.getElementById("keymazony-toggleServer");
     var toggleServerPort = this.optionsDoc.getElementById("keymazony-toggleServerPort");
@@ -370,7 +226,7 @@ var keymazony = {
 
     }else{
       if (!this.stopServer())
-        this.gsAPI = undefined;
+        this.acpAPI = undefined;
 
       toggleButton.setAttribute("label", "Start");
 
@@ -379,13 +235,13 @@ var keymazony = {
     }
   },
 
-  // Change gsAPI server autostart option
+  // Change acpAPI server autostart option
   toggleServerStartup: function(){
     var toggleServerStartup = this.optionsDoc.getElementById("keymazony-toggleServerStartup");
     this.set_server_autostart(toggleServerStartup.getAttribute("checked"));
   },
 
-  // Change gsAPI server port
+  // Change acpAPI server port
   toggleServerPort: function(){
     this.set_server_port(this.optionsDoc.getElementById("keymazony-toggleServerPort").value);
   },
@@ -442,8 +298,9 @@ var keymazony = {
 	   mainWindow.gBrowser.selectedTab = newTab;
 	},
 
-  // Calling gsliteswf object build-in external functions
+  // Calling player object build-in external functions
   toggle: function(s){
+    this.log("test!@");
     if (this.allToggles[s] != undefined){
       this.log("toggling '" + s + "' ...");
 
@@ -453,8 +310,8 @@ var keymazony = {
 
         return true;
       }catch(e){
-
-        this.findGrooveshark();
+        this.log(e);
+        this.findAmazonCloundPlayer();
 
         try{
           this.allToggles[s]();
@@ -469,11 +326,11 @@ var keymazony = {
     }
   },
 
-  // Searching for Grooveshark tab
-  findGrooveshark: function(){
+  // Searching for Amazon Cloud Player tab
+  findAmazonCloundPlayer: function(){
 
     var mTabs = Array();
-    this.log("searching for Grooveshark tab ...");
+    this.log("searching for Amazon Cloud Player tab ...");
 
     if (this.environment == "prism"){
       mTabs[0] = WebRunner._getBrowser();
@@ -483,24 +340,21 @@ var keymazony = {
 
     try{
 
-      delete this.gsliteswf;
+      delete this.player;
 
       for (var i=0; i<mTabs.length; i++){
         var browser = typeof(mTabs[i].loadURI) == "function" ? mTabs[i] : gBrowser.getBrowserForTab(mTabs[i]);
 
         /*
           Search for tab with URL like:
-            http://listen.grooveshark.com/
-            http://preview.grooveshark.com/
-            http://staging.grooveshark.com/
-            http://retro.grooveshark.com/
+            https://www.amazon.com/gp/dmusic/mp3/player
         */
-        if (browser.currentURI["spec"].search(/^http\:\/\/(listen|preview|staging|retro)\.grooveshark\.com/) != -1){
-          if (browser.contentWindow.wrappedJSObject.Grooveshark != undefined){
+        if (browser.currentURI["spec"].search(/^https\:\/\/www\.amazon\.com\/gp\/dmusic\/mp3\/player/) != -1){
+          if (browser.contentWindow.wrappedJSObject.Mp3PlayerInterface != undefined){
 
-            this.log("found Grooveshark");
-            this.gsliteswf = browser.contentWindow.wrappedJSObject.Grooveshark;
-            this.gsTab = mTabs[i];
+            this.log("found Amazon Cloud Player");
+            this.player = browser.contentWindow.wrappedJSObject.Mp3PlayerInterface;
+            this.acpTab = browser;
 
             break;
           }
@@ -552,7 +406,7 @@ var keymazony = {
 
     }
 
-    this.optionsDoc.getElementById("keymazony-toggleServer").setAttribute("label", (this.gsAPI == undefined ? "Start" : "Stop"));
+    this.optionsDoc.getElementById("keymazony-toggleServer").setAttribute("label", (this.acpAPI == undefined ? "Start" : "Stop"));
     this.optionsDoc.getElementById("keymazony-toggleServerStartup").setAttribute("label", "Start with " + (this.environment == "prism" ? "Prism" : "Firefox"))
     this.optionsDoc.getElementById("keymazony-toggleServerStartup").setAttribute("checked", this.get_server_autostart());
 
@@ -560,7 +414,7 @@ var keymazony = {
     var toggleServerPort = this.optionsDoc.getElementById("keymazony-toggleServerPort");
     toggleServerPort.value = this.get_server_port();
 
-    if (this.gsAPI != undefined)
+    if (this.acpAPI != undefined)
       toggleServerPort.setAttribute("disabled", true);
 
     this.log("options UI updated");
@@ -677,6 +531,7 @@ var keymazony = {
       }
 
       for(var i in id_arr){
+
         if (!this.allToggles[id_arr[i]])
           continue;
 

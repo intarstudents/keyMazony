@@ -14,11 +14,6 @@
     <command id="keymazony_cmd_previous"  oncommand="keymazony.toggle('previous');" />
     <command id="keymazony_cmd_next"      oncommand="keymazony.toggle('next');" />
 
-    <command id="keymazony_cmd_favorite"  oncommand="keymazony.toggle('favorite');" />
-    <command id="keymazony_cmd_voteup"    oncommand="keymazony.toggle('voteup');" />
-    <command id="keymazony_cmd_voteclear" oncommand="keymazony.toggle('voteclear');" />
-    <command id="keymazony_cmd_votedown"  oncommand="keymazony.toggle('votedown');" />
-
     <command id="keymazony_cmd_mute"      oncommand="keymazony.toggle('mute');" />
     <command id="keymazony_cmd_volup"     oncommand="keymazony.toggle('volup');" />
     <command id="keymazony_cmd_voldown"   oncommand="keymazony.toggle('voldown');" />

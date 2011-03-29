@@ -13,7 +13,7 @@
                    em:version="0.1"
                    em:creator="Intars Students"
                    em:optionsURL="chrome://keymazony/content/options.xul"
-                   em:iconURL="chrome://keymazony/skin/keysharky.png">
+                   em:iconURL="chrome://keymazony/skin/keymazony.png">
     <em:targetApplication RDF:resource="rdf:#$kLx0i3"/>
   </RDF:Description>
 </RDF:RDF>

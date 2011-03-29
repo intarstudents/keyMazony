@@ -50,38 +50,6 @@
 
     </groupbox>
 
-    <groupbox id="keymazony-group-current">
-      <caption label="Current song"/>
-
-      <hbox align="center">
-        <checkbox onclick="keymazony.toggleCombo('favorite');" id="keymazony-enabler-favorite" class="enabler" label="Favorite" />
-        <spacer flex="1"/>
-        <textbox id="keymazony-toggle-favorite-shortcut" value="-"
-                 onkeypress="keymazony.applyCombo(event, 'favorite')" readonly="true" />
-      </hbox>
-
-      <hbox align="center">
-        <checkbox onclick="keymazony.toggleCombo('voteup');" id="keymazony-enabler-voteup" class="enabler" label="Vote up :)" />
-        <spacer flex="1"/>
-        <textbox id="keymazony-toggle-voteup-shortcut" value="-"
-                 onkeypress="keymazony.applyCombo(event, 'voteup')" readonly="true" />
-      </hbox>
-
-      <hbox align="center">
-        <checkbox onclick="keymazony.toggleCombo('votedown');" id="keymazony-enabler-votedown" class="enabler" label="Vote down :(" />
-        <spacer flex="1"/>
-        <textbox id="keymazony-toggle-votedown-shortcut" value="-"
-                 onkeypress="keymazony.applyCombo(event, 'votedown')" readonly="true" />
-      </hbox>
-
-      <hbox align="center">
-        <checkbox onclick="keymazony.toggleCombo('voteclear');" id="keymazony-enabler-voteclear" class="enabler" label="Reset vote" />
-        <spacer flex="1"/>
-        <textbox id="keymazony-toggle-voteclear-shortcut" value="-"
-                 onkeypress="keymazony.applyCombo(event, 'voteclear')" readonly="true" />
-      </hbox>
-    </groupbox>
-
     <groupbox id="keymazony-group-sound">
       <caption label="Sound control"/>
 
