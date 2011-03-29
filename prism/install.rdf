@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
     <Description about="urn:mozilla:install-manifest">
-        <em:id>keysharky@intars.students</em:id>
-        <em:version>1.5.2</em:version>
+        <em:id>keymazony@intars.students</em:id>
+        <em:version>0.1</em:version>
         <em:type>2</em:type>
 
         <!-- Prism -->
@@ -13,12 +13,12 @@
                 <em:maxVersion>1.0.0.*</em:maxVersion>
             </Description>
         </em:targetApplication>
-        
-        <em:name>keySharky</em:name>
-        <em:description>Add missing keyboard functionality to Grooveshark!</em:description>
+
+        <em:name>keyMazony</em:name>
+        <em:description>Add missing keyboard functionality to Amazon Cloud Player!</em:description>
         <em:creator>Intars Students</em:creator>
-        <em:optionsURL>chrome://keysharky/content/options.xul</em:optionsURL>
-        <em:iconURL>chrome://keysharky/skin/grooveshark-logo.png</em:iconURL>
+        <em:optionsURL>chrome://keymazony/content/options.xul</em:optionsURL>
+        <em:iconURL>chrome://keymazony/skin/keymazony.png</em:iconURL>
         <em:homepageURL>http://github.com/intarstudents/keySharky/wiki</em:homepageURL>
     </Description>
 </RDF>

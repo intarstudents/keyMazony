@@ -1,4 +1,4 @@
-resource keysharky ./
-content	keysharky	content/
-skin keysharky skin skin/
-overlay	chrome://webrunner/content/webrunner.xul	chrome://keysharky/content/firefoxOverlay.xul
+resource keymazony ./
+content	keymazony	content/
+skin keymazony skin skin/
+overlay	chrome://webrunner/content/webrunner.xul	chrome://keymazony/content/firefoxOverlay.xul

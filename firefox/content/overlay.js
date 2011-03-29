@@ -400,7 +400,6 @@ var keymazony = {
     }else if (this.environment == "prism"){
 
       this.optionsDoc.getElementById("keymazony-group-playback").style.display = "none";
-      this.optionsDoc.getElementById("keymazony-group-current").style.display = "none";
       this.optionsDoc.getElementById("keymazony-group-sound").style.display = "none";
       this.optionsDoc.getElementById("keymazony-group-readme").style.display = "none";
 
