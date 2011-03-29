@@ -1,8 +1,8 @@
 {
-  "name": "keySharky",
-  "version": "1.5.4",
-  "description": "Add missing keyboard functionality to Grooveshark!",
-  "background_page": "keysharky.html",
+  "name": "keyMazony",
+  "version": "0.1",
+  "description": "Add missing keyboard functionality to Amazon Cloud Player!",
+  "background_page": "keymazony.html",
   "options_page": "options.html",
   "permissions": ["tabs"],
   "content_scripts": [
