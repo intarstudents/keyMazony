@@ -1,149 +1,149 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<?xml-stylesheet href="chrome://keysharky/skin/options.css" type="text/css"?>
-<window id="keysharky-options" title="keySharky Options"
+<?xml-stylesheet href="chrome://keymazony/skin/options.css" type="text/css"?>
+<window id="keymazony-options" title="keyMazony Options"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  
+
   <script type="text/javascript">
-    // Creating link between keysharky object in main window and option window
-    
+    // Creating link between keymazony object in main window and option window
+
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                    .getService(Components.interfaces.nsIWindowMediator);
     var mainWindow = wm.getMostRecentWindow("navigator:browser");
-    
+
     // Neat, right?
-    var keysharky = mainWindow.keysharky;
-    keysharky.optionsDoc = document;
+    var keymazony = mainWindow.keymazony;
+    keymazony.optionsDoc = document;
   </script>
-  
+
   <!-- Sadly there isn't oncommand for checkbox object, so ... -->
-  <command id="keysharky_cmd_toggleServerStartup"  oncommand="keysharky.toggleServerStartup();" />
-  
+  <command id="keymazony_cmd_toggleServerStartup"  oncommand="keymazony.toggleServerStartup();" />
+
   <vbox width="400">
-    <groupbox id="keysharky-group-playback">
+    <groupbox id="keymazony-group-playback">
       <caption label="Playback control"/>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('play');" id="keysharky-enabler-play" class="enabler" label="Play/Pause" />
+        <checkbox onclick="keymazony.toggleCombo('play');" id="keymazony-enabler-play" class="enabler" label="Play/Pause" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-play-shortcut" value="-" 
-                 onkeypress="keysharky.applyCombo(event, 'play')" readonly="true" />
+        <textbox id="keymazony-toggle-play-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'play')" readonly="true" />
       </hbox>
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('stop');" id="keysharky-enabler-stop" class="enabler" label="Stop" />
+        <checkbox onclick="keymazony.toggleCombo('stop');" id="keymazony-enabler-stop" class="enabler" label="Stop" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-stop-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'stop')" readonly="true" />
+        <textbox id="keymazony-toggle-stop-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'stop')" readonly="true" />
       </hbox>
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('previous');" id="keysharky-enabler-previous" class="enabler" label="Previous song" />
+        <checkbox onclick="keymazony.toggleCombo('previous');" id="keymazony-enabler-previous" class="enabler" label="Previous song" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-previous-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'previous')" readonly="true" />
+        <textbox id="keymazony-toggle-previous-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'previous')" readonly="true" />
       </hbox>
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('next');" id="keysharky-enabler-next" class="enabler" label="Next song" />
+        <checkbox onclick="keymazony.toggleCombo('next');" id="keymazony-enabler-next" class="enabler" label="Next song" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-next-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'next')" readonly="true" />
+        <textbox id="keymazony-toggle-next-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'next')" readonly="true" />
       </hbox>
-      
+
     </groupbox>
-    
-    <groupbox id="keysharky-group-current">
+
+    <groupbox id="keymazony-group-current">
       <caption label="Current song"/>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('favorite');" id="keysharky-enabler-favorite" class="enabler" label="Favorite" />
+        <checkbox onclick="keymazony.toggleCombo('favorite');" id="keymazony-enabler-favorite" class="enabler" label="Favorite" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-favorite-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'favorite')" readonly="true" />
+        <textbox id="keymazony-toggle-favorite-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'favorite')" readonly="true" />
       </hbox>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('voteup');" id="keysharky-enabler-voteup" class="enabler" label="Vote up :)" />
+        <checkbox onclick="keymazony.toggleCombo('voteup');" id="keymazony-enabler-voteup" class="enabler" label="Vote up :)" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-voteup-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'voteup')" readonly="true" />
+        <textbox id="keymazony-toggle-voteup-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'voteup')" readonly="true" />
       </hbox>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('votedown');" id="keysharky-enabler-votedown" class="enabler" label="Vote down :(" />
+        <checkbox onclick="keymazony.toggleCombo('votedown');" id="keymazony-enabler-votedown" class="enabler" label="Vote down :(" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-votedown-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'votedown')" readonly="true" />
+        <textbox id="keymazony-toggle-votedown-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'votedown')" readonly="true" />
       </hbox>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('voteclear');" id="keysharky-enabler-voteclear" class="enabler" label="Reset vote" />
+        <checkbox onclick="keymazony.toggleCombo('voteclear');" id="keymazony-enabler-voteclear" class="enabler" label="Reset vote" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-voteclear-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'voteclear')" readonly="true" />
+        <textbox id="keymazony-toggle-voteclear-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'voteclear')" readonly="true" />
       </hbox>
     </groupbox>
-    
-    <groupbox id="keysharky-group-sound">
+
+    <groupbox id="keymazony-group-sound">
       <caption label="Sound control"/>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('mute');" id="keysharky-enabler-mute" class="enabler" label="Mute" />
+        <checkbox onclick="keymazony.toggleCombo('mute');" id="keymazony-enabler-mute" class="enabler" label="Mute" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-mute-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'mute')" readonly="true" />
+        <textbox id="keymazony-toggle-mute-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'mute')" readonly="true" />
       </hbox>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('volup');" id="keysharky-enabler-volup" class="enabler" label="Volume Up" />
+        <checkbox onclick="keymazony.toggleCombo('volup');" id="keymazony-enabler-volup" class="enabler" label="Volume Up" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-volup-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'volup')" readonly="true" />
+        <textbox id="keymazony-toggle-volup-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'volup')" readonly="true" />
       </hbox>
-      
+
       <hbox align="center">
-        <checkbox onclick="keysharky.toggleCombo('voldown');" id="keysharky-enabler-voldown" class="enabler" label="Volume Down" />
+        <checkbox onclick="keymazony.toggleCombo('voldown');" id="keymazony-enabler-voldown" class="enabler" label="Volume Down" />
         <spacer flex="1"/>
-        <textbox id="keysharky-toggle-voldown-shortcut" value="-"
-                 onkeypress="keysharky.applyCombo(event, 'voldown')" readonly="true" />
+        <textbox id="keymazony-toggle-voldown-shortcut" value="-"
+                 onkeypress="keymazony.applyCombo(event, 'voldown')" readonly="true" />
       </hbox>
     </groupbox>
-    
-    <groupbox id="keysharky-group-api-server">
+
+    <groupbox id="keymazony-group-api-server">
       <caption label="API server"/>
-      
+
       <hbox align="center">
-        <label control="keysharky-toggleServerPort" value="Port"/>
-        <textbox 
-          id="keysharky-toggleServerPort" 
-          onchange = "keysharky.toggleServerPort();"
-          max="65535" 
-          min="1024" 
-          maxLength="5" 
-          size="5" 
+        <label control="keymazony-toggleServerPort" value="Port"/>
+        <textbox
+          id="keymazony-toggleServerPort"
+          onchange = "keymazony.toggleServerPort();"
+          max="65535"
+          min="1024"
+          maxLength="5"
+          size="5"
           type="number" />
-          
+
         <spacer flex="1"/>
-        
-        <checkbox 
-          id="keysharky-toggleServerStartup" 
-          command="keysharky_cmd_toggleServerStartup" 
+
+        <checkbox
+          id="keymazony-toggleServerStartup"
+          command="keymazony_cmd_toggleServerStartup"
           checked="false"/>
       </hbox>
-      
+
       <hbox align="center">
         <spacer flex="1"/>
-        <button id="keysharky-toggleServer" oncommand="keysharky.toggleServer();" label="Start" />
+        <button id="keymazony-toggleServer" oncommand="keymazony.toggleServer();" label="Start" />
         <spacer flex="1"/>
       </hbox>
     </groupbox>
-    
-    <hbox align="center" id="keysharky-group-readme">
-      <spacer flex="1"/><description id="keysharky_readme" onclick="keysharky.readme()">With great power comes great responsibility. Read before do.</description><spacer flex="1"/>
+
+    <hbox align="center" id="keymazony-group-readme">
+      <spacer flex="1"/><description id="keymazony_readme" onclick="keymazony.readme()">With great power comes great responsibility. Read before do.</description><spacer flex="1"/>
     </hbox>
   </vbox>
-  
+
   <script type="text/javascript">
-    window.addEventListener("load", function(e) { keysharky.uiOptions(e); }, false);
-    window.addEventListener("unload", function(e) { keysharky.toggleServerPort(); }, false);
+    window.addEventListener("load", function(e) { keymazony.uiOptions(e); }, false);
+    window.addEventListener("unload", function(e) { keymazony.toggleServerPort(); }, false);
   </script>
 </window>
 

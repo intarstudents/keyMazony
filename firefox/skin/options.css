@@ -1,29 +1,29 @@
-#keysharky_readme {
-  background: #AE0000; 
+#keymazony_readme {
+  background: #AE0000;
   background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
-  color: #fff; 
-  cursor: pointer; 
-  font-size: 10px; 
+  color: #fff;
+  cursor: pointer;
+  font-size: 10px;
   margin-top: 7px;
   line-height: 16px;
   padding-left: 2px;
-  padding-right: 2px; 
+  padding-right: 2px;
   text-align: center;
   width: 400px;
-  
+
   -moz-border-radius: 2px;
 }
 
-#keysharky-toggle-play-shortcut,
-#keysharky-toggle-stop-shortcut,
-#keysharky-toggle-previous-shortcut,
-#keysharky-toggle-next-shortcut,
-#keysharky-toggle-favorite-shortcut,
-#keysharky-toggle-voteup-shortcut,
-#keysharky-toggle-voteclear-shortcut,
-#keysharky-toggle-votedown-shortcut,
-#keysharky-toggle-mute-shortcut,
-#keysharky-toggle-volup-shortcut,
-#keysharky-toggle-voldown-shortcut {
+#keymazony-toggle-play-shortcut,
+#keymazony-toggle-stop-shortcut,
+#keymazony-toggle-previous-shortcut,
+#keymazony-toggle-next-shortcut,
+#keymazony-toggle-favorite-shortcut,
+#keymazony-toggle-voteup-shortcut,
+#keymazony-toggle-voteclear-shortcut,
+#keymazony-toggle-votedown-shortcut,
+#keymazony-toggle-mute-shortcut,
+#keymazony-toggle-volup-shortcut,
+#keymazony-toggle-voldown-shortcut {
   width: 250px;
 }
