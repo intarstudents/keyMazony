@@ -1,28 +1,25 @@
 <html>
   <script>
-    var keysharky = {
+    var keymazony = {
       
-      // Init keysharky object
+      // Init keymazony object
       init: function(){
-        keysharky.groovesharkTabID = null;
-        keysharky.debug = false;
+        keymazony.CloudPlayerTabID = null;
+        keymazony.debug = false;
         
-        keysharky.defaults = {
+        keymazony.defaults = {
           "play"      : '{"modifiers":["control","alt","shift"],"keycode":90,"enabled":true}',
           "stop"      : '{"modifiers":["control","alt","shift"],"keycode":88,"enabled":true}',
           "prev"      : '{"modifiers":["control","alt","shift"],"keycode":65,"enabled":true}',
           "next"      : '{"modifiers":["control","alt","shift"],"keycode":68,"enabled":true}',
-          "favorite"  : '{"modifiers":["control","alt"],"keycode":83,"enabled":true}',
-          "voteup"    : '{"modifiers":["control","alt"],"keycode":65,"enabled":true}',
-          "votedown"  : '{"modifiers":["control","alt"],"keycode":90,"enabled":true}',
-          "voteclear" : '{"modifiers":["control","alt"],"keycode":81,"enabled":true}',
+
           "mute"      : '{"modifiers":["control","shift"],"keycode":77,"enabled":true}',
           "volup"     : '{"modifiers":["control","shift"],"keycode":190,"enabled":true}',
           "voldown"   : '{"modifiers":["control","shift"],"keycode":188,"enabled":true}'
         };
         
         safari.application.addEventListener("command", function(event) {
-          if (event.command == "keysharky-options"){
+          if (event.command == "keymazony-options"){
             
             var newTab = safari.application.activeBrowserWindow.openTab();
             newTab.url = safari.extension.baseURI + "options.html";
@@ -33,10 +30,10 @@
         safari.application.addEventListener("message", function(request){
           
           if (request.name == "keyup"){
-            for(var toggle in keysharky.defaults){
+            for(var toggle in keymazony.defaults){
               if (!localStorage[toggle]){
-                localStorage[toggle] = keysharky.defaults[toggle];
-                keysharky.log("localStorage fix: " + toggle + " reset");
+                localStorage[toggle] = keymazony.defaults[toggle];
+                keymazony.log("localStorage fix: " + toggle + " reset");
               }
             }
             
@@ -84,19 +81,19 @@
             }catch(e){}
             
             if (action){
-              keysharky.log("Toggling '" + action + "' ...");
+              keymazony.log("Toggling '" + action + "' ...");
               
-              if (keysharky.groovesharkTabID != null){
-                keysharky.toggle(action);
+              if (keymazony.CloudPlayerTabID != null){
+                keymazony.toggle(action);
               }else{
               
-                keysharky.log("Searching for Grooveshark ...");
-                keysharky.searchGrooveshark();
+                keymazony.log("Searching for Amazon Cloud Sound ...");
+                keymazony.searchCloudPlayer();
                 
-                if (keysharky.groovesharkTabID != null){
-                  keysharky.toggle(action);
+                if (keymazony.CloudPlayerTabID != null){
+                  keymazony.toggle(action);
                 }else{
-                  keysharky.log("Where is groove?!");
+                  keymazony.log("Where is groove?!");
                 }
                 
               }
@@ -106,73 +103,73 @@
         },false);
       },
       
-      // Find Grooveshark tab
-      searchGrooveshark: function(){
+      // Find CloudPlayer tab
+      searchCloudPlayer: function(){
         
-        keysharky.groovesharkTabID = null;
+        keymazony.CloudPlayerTabID = null;
         
         for(var win in safari.application.browserWindows){
-          if (keysharky.groovesharkTabID != null)
+          if (keymazony.CloudPlayerTabID != null)
             break;
                       
           for(var tab in safari.application.browserWindows[win].tabs){
-            if (keysharky.groovesharkTabID != null)
+            if (keymazony.CloudPlayerTabID != null)
               break;
                       
-            if (keysharky.checkUrl(safari.application.browserWindows[win].tabs[tab].url)){
+            if (keymazony.checkUrl(safari.application.browserWindows[win].tabs[tab].url)){
                       
-              keysharky.groovesharkTabID = {
+              keymazony.CloudPlayerTabID = {
                 "win" : win,
                 "tab" : tab
               };
                       
-              keysharky.log("The groove is found!");
+              keymazony.log("The groove is found!");
                       
             }
           }
         }
       },
       
-      // Check if Grooveshark haven't moved an inch
+      // Check if CloudPlayer haven't moved an inch
       checkUrl: function(url){
-        return url.search(/^http\:\/\/(listen|preview|staging|retro)\.grooveshark\.com/) != -1 ? true : false;
+        return url.search(/^https\:\/\/www\.amazon\.com\/gp\/dmusic\/mp3\/player/) != -1 ? true : false;
       },
       
-      // Send toggle to Grooveshark tab
+      // Send toggle to CloudPlayer tab
       toggle: function(action){
         var url = "";
         
         try{
-          url = safari.application.browserWindows[keysharky.groovesharkTabID["win"]].tabs[keysharky.groovesharkTabID["tab"]].url;
+          url = safari.application.browserWindows[keymazony.CloudPlayerTabID["win"]].tabs[keymazony.CloudPlayerTabID["tab"]].url;
         }catch(e){}
         
-        if (!keysharky.checkUrl(url)){
-          keysharky.searchGrooveshark();
+        if (!keymazony.checkUrl(url)){
+          keymazony.searchCloudPlayer();
         }
         
-        if (keysharky.groovesharkTabID != null){
+        if (keymazony.CloudPlayerTabID != null){
           try{
           
-            safari.application.browserWindows[keysharky.groovesharkTabID["win"]].
-            tabs[keysharky.groovesharkTabID["tab"]].page.dispatchMessage("Grooveshark", action);
+            safari.application.browserWindows[keymazony.CloudPlayerTabID["win"]].
+            tabs[keymazony.CloudPlayerTabID["tab"]].page.dispatchMessage("CloudPlayer", action);
             
-            keysharky.log("Toggled '" + request + "' !");
+            keymazony.log("Toggled '" + request + "' !");
             
           }catch(e){}
         }else{
-          keysharky.log("Lost Grooveshark :(");
+          keymazony.log("Lost Amazon Cloud Player :(");
         }
       },
       
       // Debugging is half of victory!
       log: function(msg){
-        if (keysharky.debug && msg){
-          console.log("keysharky ---> " + msg);
+        if (keymazony.debug && msg){
+          console.log("keymazony ---> " + msg);
         }
       },
       
     };
     
-    window.addEventListener("load", function(e) { keysharky.init(e); }, false);
+    window.addEventListener("load", function(e) { keymazony.init(e); }, false);
   </script>
 </html>

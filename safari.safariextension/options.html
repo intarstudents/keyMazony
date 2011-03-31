@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>keySharky Options</title>
+    <title>keyMazony Options</title>
     
     <style>
       body {
@@ -78,7 +78,7 @@
     </style>
     
     <script>
-      keysharkyOptions = {
+      keymazonyOptions = {
         init: function(){
           
           this.debug = false;
@@ -88,10 +88,7 @@
             "stop"      : '{"modifiers":["control","alt","shift"],"keycode":88,"enabled":true}',
             "prev"      : '{"modifiers":["control","alt","shift"],"keycode":65,"enabled":true}',
             "next"      : '{"modifiers":["control","alt","shift"],"keycode":68,"enabled":true}',
-            "favorite"  : '{"modifiers":["control","alt"],"keycode":83,"enabled":true}',
-            "voteup"    : '{"modifiers":["control","alt"],"keycode":65,"enabled":true}',
-            "votedown"  : '{"modifiers":["control","alt"],"keycode":90,"enabled":true}',
-            "voteclear" : '{"modifiers":["control","alt"],"keycode":81,"enabled":true}',
+
             "mute"      : '{"modifiers":["control","shift"],"keycode":77,"enabled":true}',
             "volup"     : '{"modifiers":["control","shift"],"keycode":190,"enabled":true}',
             "voldown"   : '{"modifiers":["control","shift"],"keycode":188,"enabled":true}'
@@ -105,7 +102,7 @@
         // Debugging is half of victory!
         log: function(msg){
           if (this.debug && msg){
-            console.log("keysharky ---> " + msg);
+            console.log("keymazony ---> " + msg);
           }
         },
         
@@ -164,7 +161,7 @@
             if (!this.checkJSON(combo))
               return;
             
-            combo["enabled"] = document.getElementById("keysharky-enabler-" + id).checked === true ? true : false;
+            combo["enabled"] = document.getElementById("keymazony-enabler-" + id).checked === true ? true : false;
             
             this.uiChangeCombos(id, combo);
             this.setPref(id, combo);
@@ -306,8 +303,8 @@
               document.getElementById(id_arr[i]).value = str;
             }
             
-            if (document.getElementById("keysharky-enabler-" + id_arr[i]) && json_arr[i]["enabled"]){
-              document.getElementById("keysharky-enabler-" + id_arr[i]).setAttribute("checked", json_arr[i]["enabled"]);
+            if (document.getElementById("keymazony-enabler-" + id_arr[i]) && json_arr[i]["enabled"]){
+              document.getElementById("keymazony-enabler-" + id_arr[i]).setAttribute("checked", json_arr[i]["enabled"]);
             }
           }
         },
@@ -353,15 +350,15 @@
         
         toggleEnabled: function(event, id){
           if (this.defaults[id]){
-            var json = keysharkyOptions.getPref(id);
+            var json = keymazonyOptions.getPref(id);
             
             json["enabled"] = event.checked === true ? true : false;
-            keysharkyOptions.setPref(id, json);
+            keymazonyOptions.setPref(id, json);
           }
         }
       };
       
-      window.addEventListener("load", function(e) { keysharkyOptions.init(e); }, false);
+      window.addEventListener("load", function(e) { keymazonyOptions.init(e); }, false);
     </script>
   </head>
   
@@ -369,80 +366,52 @@
     <div id="wrap">
       <div class="clear heading">Playback control</div>
       
-      <input id="keysharky-enabler-play" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'play')" />
+      <input id="keymazony-enabler-play" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'play')" />
       <span class="label">Play/Pause</span> 
       <input id="play" class="combos-input" type="text" value="-" readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'play')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'play')" />
       
       <div class="clear"></div>
       
-      <input id="keysharky-enabler-stop" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'stop')" />
+      <input id="keymazony-enabler-stop" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'stop')" />
       <span class="label">Stop</span> 
       <input id="stop" class="combos-input" type="text" value="-" readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'stop')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'stop')" />
       
       <div class="clear"></div>
       
-      <input id="keysharky-enabler-prev" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'prev')" />
+      <input id="keymazony-enabler-prev" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'prev')" />
       <span class="label">Previous song</span> 
       <input id="prev" class="combos-input" type="text" value="-" readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'prev')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'prev')" />
       
       <div class="clear"></div>
       
-      <input id="keysharky-enabler-next" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'next')" />
+      <input id="keymazony-enabler-next" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'next')" />
       <span class="label">Next song</span> 
       <input id="next" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'next')" />
-      
-      <div class="clear heading">Current song</div>
-      
-      <input id="keysharky-enabler-favorite" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'favorite')" />
-      <span class="label">Favorite</span> 
-      <input id="favorite" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'favorite')" />
-      
-      <div class="clear"></div>
-      
-      <input id="keysharky-enabler-voteup" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'voteup')" />
-      <span class="label">Vote up :)</span> 
-      <input id="voteup" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'voteup')" />
-      
-      <div class="clear"></div>
-      
-      <input id="keysharky-enabler-votedown" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'votedown')" />
-      <span class="label">Vote down :(</span> 
-      <input id="votedown" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'votedown')" />
-      
-      <div class="clear"></div>
-      
-      <input id="keysharky-enabler-voteclear" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'voteclear')" />
-      <span class="label">Reset vote</span> 
-      <input id="voteclear" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'voteclear')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'next')" />
       
       <div class="clear heading">Sound control</div>
       
-      <input id="keysharky-enabler-mute" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'mute')" />
+      <input id="keymazony-enabler-mute" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'mute')" />
       <span class="label">Mute</span> 
       <input id="mute" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'mute')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'mute')" />
       
       <div class="clear"></div>
       
-      <input id="keysharky-enabler-volup" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'volup')" />
+      <input id="keymazony-enabler-volup" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'volup')" />
       <span class="label">Volume Up</span> 
       <input id="volup" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'volup')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'volup')" />
       
       <div class="clear"></div>
       
-      <input id="keysharky-enabler-voldown" class="check" type="checkbox" onclick="keysharkyOptions.toggleEnabled(this, 'voldown')" />
+      <input id="keymazony-enabler-voldown" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'voldown')" />
       <span class="label">Volume Down</span> 
       <input id="voldown" class="combos-input" type="text" value="-"readonly="true" 
-      onkeydown="keysharkyOptions.applyCombo(event, 'voldown')" />
+      onkeydown="keymazonyOptions.applyCombo(event, 'voldown')" />
       
       <div class="clear"></div>
       
