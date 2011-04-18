@@ -1,10 +1,10 @@
-var keysharkyListener = {
+var keymazonyListener = {
 
-  Grooveshark: function(toggle)
+  CloudPlayer: function(toggle)
   {
     var elem = document.createElement("script");
     elem.type = "text/javascript";
-    elem.innerHTML = "if (typeof(Grooveshark) != 'undefined') Grooveshark." + toggle + ";";
+    elem.innerHTML = toggle;
     
     var append = document.head.appendChild(elem);
     document.head.removeChild(append);
@@ -12,26 +12,21 @@ var keysharkyListener = {
   
 	init: function(){
     
-    if (window.location.href.search(/^http\:\/\/(listen|preview|staging|retro)\.grooveshark\.com/) != -1){
+    if (window.location.href.search(/^https\:\/\/www\.amazon\.com\/gp\/dmusic\/mp3\/player/) != -1){
       safari.self.addEventListener("message", function(request){
       
         var allToggles = {
-          "play"      : function(){ keysharkyListener.Grooveshark("togglePlayPause()"); },
-          "stop"      : function(){ keysharkyListener.Grooveshark("pause()"); },
-          "prev"      : function(){ keysharkyListener.Grooveshark("previous()"); },
-          "next"      : function(){ keysharkyListener.Grooveshark("next()"); },
-          
-          "favorite"  : function(){ keysharkyListener.Grooveshark("favoriteCurrentSong()"); },
-          "voteup"    : function(){ keysharkyListener.Grooveshark("voteCurrentSong(1)"); },
-          "votedown"  : function(){ keysharkyListener.Grooveshark("voteCurrentSong(-1)"); },
-          "voteclear" : function(){ keysharkyListener.Grooveshark("voteCurrentSong(0)"); },
-          
-          "mute"      : function(){ keysharkyListener.Grooveshark("setIsMuted(Grooveshark.getIsMuted() ? false : true)"); },
-          "volup"     : function(){ keysharkyListener.Grooveshark("setVolume(Grooveshark.getVolume() + 10)"); },
-          "voldown"   : function(){ keysharkyListener.Grooveshark("setVolume(Grooveshark.getVolume() - 10)"); }
+          "play"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.masterPlay();"); },
+          "stop"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.pause();"); },
+          "prev"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('previous', null, null);"); },
+          "next"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('next', null, null);"); },
+
+          "mute"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.toggleMute();"); },
+          "volup"     : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow<=90){window.Mp3PlayerInterface.setVolume((volNow/100)+0.1);volCont.slider('option','value',volNow+10)}else{window.Mp3PlayerInterface.setVolume(1);volCont.slider('option','value',100)}") },
+          "voldown"   : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow>=10){window.Mp3PlayerInterface.setVolume((volNow/100)-0.1);volCont.slider('option','value',volNow-10)}else{window.Mp3PlayerInterface.setVolume(0);volCont.slider('option','value',0)}"); },
         };
         
-        if (request.name == "Grooveshark" && allToggles[request.message] != undefined){
+        if (request.name == "CloudPlayer" && allToggles[request.message] != undefined){
           allToggles[request.message]();
         }
         
@@ -39,10 +34,10 @@ var keysharkyListener = {
       
     }
     
-    if (window.location.href.search(/^safari\-extension\:\/\/com\.intarstudents\.keysharky/) == -1){
+    if (window.location.href.search(/^safari\-extension\:\/\/com\.intarstudents\.keymazony/) == -1){
     	this.unAllowedKeys = [16, 17, 18, 91];
     	
-    	// Inject in tab keyup listener, who will check for (maybe) valid keysharky combo
+    	// Inject in tab keyup listener, who will check for (maybe) valid keymazony combo
     	window.addEventListener('keyup', function(event){
       
       	var modifiers = new Array();
@@ -60,7 +55,7 @@ var keysharkyListener = {
         	keycode = event.keyCode;
       	}
       	
-      	if(modifiers.length > 0 && !keysharkyListener.inArray(keysharkyListener.unAllowedKeys, keycode)) {
+      	if(modifiers.length > 0 && !keymazonyListener.inArray(keymazonyListener.unAllowedKeys, keycode)) {
       		        
         	var request = {
           	"modifiers" : modifiers,
@@ -90,7 +85,7 @@ var keysharkyListener = {
 
 try{
 
-  keysharkyListener.init();
+  keymazonyListener.init();
   
 }catch(e){
   // Fail, but with dignity!

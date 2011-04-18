@@ -5,32 +5,32 @@
 	<key>Author</key>
 	<string>Intars Students</string>
 	<key>CFBundleDisplayName</key>
-	<string>keySharky</string>
+	<string>keyMazony</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.intarstudents.keysharky</string>
+	<string>com.intarstudents.keymazony</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.3</string>
+	<string>0.1</string>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>1</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Context Menu Items</key>
 		<array>
 			<dict>
 				<key>Command</key>
-				<string>keysharky-options</string>
+				<string>keymazony-options</string>
 				<key>Identifier</key>
-				<string>keysharkyOptions</string>
+				<string>keymazonyOptions</string>
 				<key>Title</key>
-				<string>keySharky Options</string>
+				<string>keyMazony Options</string>
 			</dict>
 		</array>
 		<key>Database Quota</key>
 		<real>1048576</real>
 		<key>Global Page</key>
-		<string>keysharky.html</string>
+		<string>keymazony.html</string>
 	</dict>
 	<key>Content</key>
 	<dict>
@@ -43,7 +43,7 @@
 		</dict>
 	</dict>
 	<key>Description</key>
-	<string>Add missing keyboard functionality to Grooveshark!</string>
+	<string>Add missing keyboard functionality to Amazon Cloud Player!</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
@@ -57,8 +57,8 @@
 		</dict>
 	</dict>
 	<key>Update Manifest URL</key>
-	<string>http://keysharky.tldr.lv/safari.plist</string>
+	<string>http://keymazony.tldr.lv/safari.plist</string>
 	<key>Website</key>
-	<string>http://keysharky.tldr.lv/</string>
+	<string>http://keymazony.tldr.lv/</string>
 </dict>
 </plist>
