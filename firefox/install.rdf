@@ -10,7 +10,7 @@
                    em:id="keymazony@intars.students"
                    em:name="keyMazony"
                    em:description="Add missing keyboard functionality to Amazon Cloud Player!"
-                   em:version="0.1"
+                   em:version="0.2"
                    em:creator="Intars Students"
                    em:optionsURL="chrome://keymazony/content/options.xul"
                    em:iconURL="chrome://keymazony/skin/keymazony.png">

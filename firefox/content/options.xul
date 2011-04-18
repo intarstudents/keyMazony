@@ -54,13 +54,6 @@
       <caption label="Sound control"/>
 
       <hbox align="center">
-        <checkbox onclick="keymazony.toggleCombo('mute');" id="keymazony-enabler-mute" class="enabler" label="Mute" />
-        <spacer flex="1"/>
-        <textbox id="keymazony-toggle-mute-shortcut" value="-"
-                 onkeypress="keymazony.applyCombo(event, 'mute')" readonly="true" />
-      </hbox>
-
-      <hbox align="center">
         <checkbox onclick="keymazony.toggleCombo('volup');" id="keymazony-enabler-volup" class="enabler" label="Volume Up" />
         <spacer flex="1"/>
         <textbox id="keymazony-toggle-volup-shortcut" value="-"

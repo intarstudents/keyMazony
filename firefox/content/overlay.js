@@ -3,22 +3,21 @@ var keymazony = {
   // Init keymazony object
   init: function() {
     this.allToggles = {
-      "play"      : function(){ keymazony.player.currentPlayer.masterPlay(); },
-      "stop"      : function(){ keymazony.player.currentPlayer.pause(); },
-      "previous"  : function(){ keymazony.player.currentPlayer.playHash("previous", null, null); },
-      "next"      : function(){ keymazony.player.currentPlayer.playHash("next", null, null); },
+      "play"      : function(){ keymazony.player.widgets.player.masterPlay(); },
+      "stop"      : function(){ keymazony.player.widgets.player.pause(); },
+      "previous"  : function(){ keymazony.player.widgets.player.playHash('previous', null, null); },
+      "next"      : function(){ keymazony.player.widgets.player.playHash('next', null, null); },
 
-      "mute"      : function(){ keymazony.player.toggleMute() },
       "volup"     : function(){
 
         var volCont = keymazony.acpTab.contentWindow.wrappedJSObject.jQuery(".volumeContainer");
         var volNow  = volCont.slider("option","value");
 
         if (volNow <=90){
-          keymazony.player.setVolume((volNow / 100) + 0.1);
+          keymazony.player.playerInterface.setVolume((volNow / 100) + 0.1);
           volCont.slider("option","value", volNow + 10);
         }else{
-          keymazony.player.setVolume(1);
+          keymazony.player.playerInterface.setVolume(1);
           volCont.slider("option","value", 100);
         }
 
@@ -29,10 +28,10 @@ var keymazony = {
         var volNow  = volCont.slider("option","value");
 
         if (volNow >=10){
-          keymazony.player.setVolume((volNow / 100) - 0.1);
+          keymazony.player.playerInterface.setVolume((volNow / 100) - 0.1);
           volCont.slider("option","value", volNow - 10);
         }else{
-          keymazony.player.setVolume(0);
+          keymazony.player.playerInterface.setVolume(0);
           volCont.slider("option","value", 0);
         }
 
@@ -45,7 +44,6 @@ var keymazony = {
       "previous"    :  '{"modifiers":["control","alt","shift"],"key":"A","keycode":"","enabled":true}',
       "next"        :  '{"modifiers":["control","alt","shift"],"key":"D","keycode":"","enabled":true}',
 
-      "mute"        :  '{"modifiers":["control","shift"],"key":"M","keycode":"","enabled":true}',
       "volup"       :  '{"modifiers":["control","shift"],"key":">","keycode":"","enabled":true}',
       "voldown"     :  '{"modifiers":["control","shift"],"key":"<","keycode":"","enabled":true}',
 
@@ -300,7 +298,7 @@ var keymazony = {
 
   // Calling player object build-in external functions
   toggle: function(s){
-    this.log("test!@");
+
     if (this.allToggles[s] != undefined){
       this.log("toggling '" + s + "' ...");
 
@@ -350,10 +348,10 @@ var keymazony = {
             https://www.amazon.com/gp/dmusic/mp3/player
         */
         if (browser.currentURI["spec"].search(/^https\:\/\/www\.amazon\.com\/gp\/dmusic\/mp3\/player/) != -1){
-          if (browser.contentWindow.wrappedJSObject.Mp3PlayerInterface != undefined){
+          if (browser.contentWindow.wrappedJSObject.amznMusic != undefined){
 
             this.log("found Amazon Cloud Player");
-            this.player = browser.contentWindow.wrappedJSObject.Mp3PlayerInterface;
+            this.player = browser.contentWindow.wrappedJSObject.amznMusic;
             this.acpTab = browser;
 
             break;

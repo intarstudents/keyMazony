@@ -3,7 +3,6 @@ pref('extensions.keymazony.stop',       '{"modifiers":["control","alt","shift"],
 pref('extensions.keymazony.previous',   '{"modifiers":["control","alt","shift"],"key":"A","keycode":"","enabled":true}');
 pref('extensions.keymazony.next',       '{"modifiers":["control","alt","shift"],"key":"D","keycode":"","enabled":true}');
 
-pref('extensions.keymazony.mute',       '{"modifiers":["control","shift"],"key":"M","keycode":"","enabled":true}');
 pref('extensions.keymazony.volup',      '{"modifiers":["control","shift"],"key":">","keycode":"","enabled":true}');
 pref('extensions.keymazony.voldown',    '{"modifiers":["control","shift"],"key":"<","keycode":"","enabled":true}');
 
