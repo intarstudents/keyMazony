@@ -89,7 +89,6 @@
             "prev"      : '{"modifiers":["control","alt","shift"],"keycode":65,"enabled":true}',
             "next"      : '{"modifiers":["control","alt","shift"],"keycode":68,"enabled":true}',
 
-            "mute"      : '{"modifiers":["control","shift"],"keycode":77,"enabled":true}',
             "volup"     : '{"modifiers":["control","shift"],"keycode":190,"enabled":true}',
             "voldown"   : '{"modifiers":["control","shift"],"keycode":188,"enabled":true}'
           };
@@ -394,13 +393,6 @@
       onkeydown="keymazonyOptions.applyCombo(event, 'next')" />
 
       <div class="clear heading">Sound control</div>
-
-      <input id="keymazony-enabler-mute" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'mute')" />
-      <span class="label">Mute</span>
-      <input id="mute" class="combos-input" type="text" value="-"readonly="true"
-      onkeydown="keymazonyOptions.applyCombo(event, 'mute')" />
-
-      <div class="clear"></div>
 
       <input id="keymazony-enabler-volup" class="check" type="checkbox" onclick="keymazonyOptions.toggleEnabled(this, 'volup')" />
       <span class="label">Volume Up</span>
