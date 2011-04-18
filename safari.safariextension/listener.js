@@ -16,14 +16,13 @@ var keymazonyListener = {
       safari.self.addEventListener("message", function(request){
       
         var allToggles = {
-          "play"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.masterPlay();"); },
-          "stop"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.pause();"); },
-          "prev"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('previous', null, null);"); },
-          "next"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.currentPlayer.playHash('next', null, null);"); },
+          "play"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.masterPlay();"); },
+          "stop"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.pause();"); },
+          "prev"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.playHash('previous', null, null);"); },
+          "next"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.playHash('next', null, null);"); },
 
-          "mute"      : function(){ keymazonyListener.CloudPlayer("window.Mp3PlayerInterface.toggleMute();"); },
-          "volup"     : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow<=90){window.Mp3PlayerInterface.setVolume((volNow/100)+0.1);volCont.slider('option','value',volNow+10)}else{window.Mp3PlayerInterface.setVolume(1);volCont.slider('option','value',100)}") },
-          "voldown"   : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow>=10){window.Mp3PlayerInterface.setVolume((volNow/100)-0.1);volCont.slider('option','value',volNow-10)}else{window.Mp3PlayerInterface.setVolume(0);volCont.slider('option','value',0)}"); },
+          "volup"     : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow<=90){window.amznMusic.playerInterface.setVolume((volNow/100)+0.1);volCont.slider('option','value',volNow+10)}else{window.amznMusic.playerInterface.setVolume(1);volCont.slider('option','value',100)}") },
+          "voldown"   : function(){ keymazonyListener.CloudPlayer("var volCont=window.jQuery('.volumeContainer');var volNow=volCont.slider('option','value');if(volNow>=10){window.amznMusic.playerInterface.setVolume((volNow/100)-0.1);volCont.slider('option','value',volNow-10)}else{window.amznMusic.playerInterface.setVolume(0);volCont.slider('option','value',0)}"); },
         };
         
         if (request.name == "CloudPlayer" && allToggles[request.message] != undefined){
