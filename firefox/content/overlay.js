@@ -3,7 +3,17 @@ var keymazony = {
   // Init keymazony object
   init: function() {
     this.allToggles = {
-      "play"      : function(){ keymazony.player.widgets.player.masterPlay(); },
+      "play"      : function(){
+        if (keymazony.player.widgets.player.getCurrent() == null){
+          keymazony.player.widgets.player.playHash("play/each");
+        }else{ 
+          if (keymazony.acpTab.contentWindow.document.getElementsByClassName("paused").length){ 
+            keymazony.player.widgets.player.resume(); 
+          }else{ 
+            keymazony.player.widgets.player.pause(); 
+          } 
+        }
+      },
       "stop"      : function(){ keymazony.player.widgets.player.pause(); },
       "previous"  : function(){ keymazony.player.widgets.player.playHash('previous', null, null); },
       "next"      : function(){ keymazony.player.widgets.player.playHash('next', null, null); },

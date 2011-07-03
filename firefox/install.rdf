@@ -5,12 +5,12 @@
   <RDF:Description RDF:about="rdf:#$kLx0i3"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.0"
-                   em:maxVersion="4.0.*" />
+                   em:maxVersion="5.*" />
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="keymazony@intars.students"
                    em:name="keyMazony"
                    em:description="Add missing keyboard functionality to Amazon Cloud Player!"
-                   em:version="0.2"
+                   em:version="0.3"
                    em:creator="Intars Students"
                    em:optionsURL="chrome://keymazony/content/options.xul"
                    em:iconURL="chrome://keymazony/skin/keymazony.png">
