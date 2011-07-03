@@ -18,7 +18,7 @@ var keymazonyListener = {
 
       chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
         var allToggles = {
-          "play"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.masterPlay();"); },
+          "play"      : function(){ keymazonyListener.CloudPlayer("if (window.amznMusic.widgets.player.getCurrent() == null){ window.amznMusic.widgets.player.playHash(\"play/each\"); }else{ if (window.document.getElementsByClassName(\"paused\").length){ window.amznMusic.widgets.player.resume(); }else{ window.amznMusic.widgets.player.pause(); }}"); },
           "stop"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.pause();"); },
           "prev"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.playHash('previous', null, null);"); },
           "next"      : function(){ keymazonyListener.CloudPlayer("window.amznMusic.widgets.player.playHash('next', null, null);"); },
