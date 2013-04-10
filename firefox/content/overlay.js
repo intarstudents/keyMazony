@@ -144,35 +144,30 @@ var keymazony = {
   // Not implemented message (or an error)
   serverErrorParser: function(request, response){
     response.setStatusLine("1.1", 501, "Not implemented");
-    response.write((<r><![CDATA[
-<html>
-  <head>
-    <title>keyMazony &quot;Hi there!&quot;</title>
-  </head>
-  <body>
-    <div style="width: 450px; margin: 20px auto auto;">
-      <h2>Hi there!</h2>
-
-      <p style="font-family: courier, monospace;">
-        I'm sad to tell you this, but your requested method doesn't exicst in API (yet?).
-        If you are lost, it's possible to find some help by visiting
-        <a href="http://wiki.github.com/intarstudents/keymazony/api-server">API server</a> documentation page.
-      </p>
-
-      <p style="font-family: courier, monospace;">
-         <b>K THX BYE</b>
-      </p>
-
-      <hr />
-
-      <p style="font-family: courier, monospace; font-size: 70%;">
-        Intars Students<br />
-        <a href="mailto:intars@tldr.lv">intars@tldr.lv</a>
-      </p>
-    </div>
-  </body>
-</html>
-    ]]></r>).toString());
+    response.write("\
+<html>\
+  <head>\
+    <title>keyMazony &quot;Hi there!&quot;</title>\
+  </head>\
+  <body>\
+    <div style=\"width: 450px; margin: 20px auto auto;\">\
+      <h2>Hi there!</h2>\
+      <p style=\"font-family: courier, monospace;\">\
+        I'm sad to tell you this, but your requested method doesn't exicst in API (yet?).\
+        If you are lost, it's possible to find some help by visiting\
+        <a href=\"http://wiki.github.com/intarstudents/keymazony/api-server\">API server</a> documentation page.\
+      </p>\
+      <p style=\"font-family: courier, monospace;\">\
+         <b>K THX BYE</b>\
+      </p>\
+      <hr />\
+      <p style=\"font-family: courier, monospace; font-size: 70%;\">\
+        Intars Students<br />\
+        <a href=\"mailto:intars@tldr.lv\">intars@tldr.lv</a>\
+      </p>\
+    </div>\
+  </body>\
+</html>");
   },
 
   get_server_autostart: function(){
