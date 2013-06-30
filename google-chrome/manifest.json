@@ -1,8 +1,10 @@
 {
   "name": "keyMazony",
-  "version": "0.3",
+  "version": "1.0",
   "description": "Add missing keyboard functionality to Amazon Cloud Player!",
-  "background_page": "keymazony.html",
+  "background": {
+    "scripts": ["keymazony.js"]
+  },
   "options_page": "options.html",
   "permissions": ["tabs"],
   "content_scripts": [
@@ -15,5 +17,6 @@
   "icons" : {
     "48"  : "keymazony-48.png",
     "128" : "keymazony-128.png"
-  }
+  },
+  "manifest_version": 2
 }
